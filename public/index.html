@@ -1,19 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>GameBias</title>
-    <link rel="stylesheet" href="default.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-  </head>
-  <body>
-    <div ng-app="app">
+<head>
+  <meta charset="utf-8">
+  <title>GameBias</title>
+  <link rel="stylesheet" href="default.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse visible-xs">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand logo">GameBias</a>
+      </div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li><a>Dashboard</a></li>
+          <li><a>Upload Video</a></li>
+          <li><a>My Videos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row content">
+      <div class="col-sm-3 sidenav hidden-xs">
+        <h2 class="logo">GameBias</h2>
+        <ul class="nav nav-pills nav-stacked">
+          <li><a>Dashboard</a></li>
+          <li><a>Upload Video</a></li>
+          <li><a>My Videos</a></li>
+        </ul><br>
+      </div>
+      <br>
+
+      <div class="col-sm-9">
+        <div>
+          <h3>Upload Video</h3>
+          <form id="upload-video" action="/api/form-upload" enctype="multipart/form-data" method="post">
+            <input type="file" name="video" id="video">
+            <h5>Name</h5>
+            <input class="upload-form" type="text" name="name">
+            <h5>Description</h5>
+            <textarea class="upload-form" type="textarea" name="description" placeholder="Provide a brief description of the video"></textarea>
+            <h5>Game</h5>
+            <input class="upload-form" type="text" name="game">
+            <div>
+              <input class="btn btn-primary video-upload" type="submit" value="Upload Video" >
+            </div>
+          </form>
+        </div>
+      </div>
 
     </div>
+  </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="bundle.js"></script>
-  </body>
+</body>
 </html>

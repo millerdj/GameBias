@@ -1,0 +1,24 @@
+.row.content {
+  height: 1080px;
+}
+
+.sidenav {
+  background-color: #1A1919;
+  height: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .row.content {height: auto;}
+}
+
+.logo {
+  color: #A2A2A2;
+}
+
+.upload-form {
+  width: 450px;
+}
+
+.video-upload {
+  margin-top: 20px;
+}
