@@ -44,14 +44,14 @@
       <div class="col-sm-9">
         <div>
           <h3>Upload Video</h3>
-          <form id="upload-video" action="/api/form-upload" enctype="multipart/form-data" method="post">
+          <form id="upload-video">
             <input type="file" name="video" id="video">
             <h5>Name</h5>
-            <input class="upload-form" type="text" name="name">
+            <input id="name" class="upload-form" type="text" name="name">
             <h5>Description</h5>
-            <textarea class="upload-form" type="textarea" name="description" placeholder="Provide a brief description of the video"></textarea>
+            <textarea id="description" class="upload-form" type="textarea" name="description" placeholder="Provide a brief description of the video"></textarea>
             <h5>Game</h5>
-            <input class="upload-form" type="text" name="game">
+            <input id="game" class="upload-form" type="text" name="game">
             <div>
               <input class="btn btn-primary video-upload" type="submit" value="Upload Video" >
             </div>
