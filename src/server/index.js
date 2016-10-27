@@ -1,9 +1,12 @@
 const express = require('express');
-const multer = require('multer')
-const s3 = require('s3')
+const multer = require('multer');
+const s3 = require('s3');
+const { json } = require('body-parser');
+const { MongoClient } = require('mongodb')
 
 const upload = multer({ dest: './uploads/'});
 const PORT = 3001;
+const MONGO_URI = 'mongodb://localhost:27017/gamebias';
 
 const app = express();
 
@@ -11,6 +14,22 @@ const videoPaths = [];
 
 
 app.post('/api/form-upload', upload.single('video'), (req, res) => {
+
+
+  MongoClient.connect(MONGO_URI, (err, db) => {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    const video = Object.assign({}, req.body, { source: 'https://s3-us-west-1.amazonaws.com/game-bias-videos/' + req.file.filename },{ analyzed: false }, { file: req.file })
+    const videos = db.collection('videos');
+
+    videos
+      .insertOne(video, (err, docs) => {
+        if (err) return console.log(err)
+        res.json(docs);
+    })
+  })
 
   const videoPaths = [];
   videoPaths.push(req.file.path)
@@ -36,7 +55,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
     },
   };
 
-  var uploader = client.uploadFile(params);
+  const uploader = client.uploadFile(params);
   uploader.on('error', function(err) {
     console.error("unable to upload:", err.stack);
   });
@@ -48,9 +67,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
     console.log("done uploading");
   });
 
-
   res.status(204);
-  res.send();
 })
 
 app.listen(PORT, () => {
