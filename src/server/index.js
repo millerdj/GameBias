@@ -2,9 +2,25 @@ const express = require('express');
 const multer = require('multer');
 const s3 = require('s3');
 const { json } = require('body-parser');
-const { MongoClient } = require('mongodb')
+const { MongoClient } = require('mongodb');
 
-const upload = multer({ dest: './uploads/'});
+const accessKey = process.env.S3_ACCESS_ID;
+const secretKey = process.env.S3_SECRET_ID;
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.mov')
+  }
+})
+
+
+const upload = multer({ storage: storage });
+
+
+
 const PORT = 3001;
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
 
@@ -21,7 +37,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
       console.error(err);
       process.exit(1);
     }
-    const video = Object.assign({}, req.body, { source: 'https://s3-us-west-1.amazonaws.com/game-bias-videos/' + req.file.filename },{ analyzed: false }, { file: req.file })
+    const video = Object.assign({}, req.body, { source: 'https://s3-us-west-1.amazonaws.com/game-bias-videos/' + req.file.filename },{ analyzed: 'Not Started' }, { file: req.file })
     const videos = db.collection('videos');
 
     videos
@@ -29,6 +45,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
         if (err) return console.log(err)
         res.json(docs);
     })
+    db.close();
   })
 
   const videoPaths = [];
@@ -41,8 +58,8 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
     multipartUploadThreshold: 125829120,
     multipartUploadSize: 104857600,
     s3Options: {
-      accessKeyId: "",
-      secretAccessKey: "",
+      accessKeyId: accessKey,
+      secretAccessKey: secretKey,
     },
   })
 
