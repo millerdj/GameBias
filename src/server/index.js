@@ -7,6 +7,29 @@ const { MongoClient } = require('mongodb');
 const accessKey = process.env.S3_ACCESS_ID;
 const secretKey = process.env.S3_SECRET_ID;
 
+const spawn = require('child_process').spawn
+
+setInterval(spawnChildren, 10000);
+
+function spawnChildren() {
+  const analyzeChild = spawn('node', ['src/server/analyze.js']);
+  analyzeChild.stdout.on('data', function (data) {
+    console.log('tail output: ' + data);
+  });
+  analyzeChild.stderr.on('data', function (data) {
+    console.log('err data: ' + data);
+  });
+
+  const dataChild = spawn('node', ['src/server/get-data.js']);
+  dataChild.stdout.on('data', function (data) {
+    console.log('tail output: ' + data);
+  });
+  dataChild.stderr.on('data', function (data) {
+    console.log('err data: ' + data);
+  });
+
+}
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads')
@@ -41,9 +64,9 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
     const videos = db.collection('videos');
 
     videos
-      .insertOne(video, (err, docs) => {
-        if (err) return console.log(err)
-        res.json(docs);
+    .insertOne(video, (err, docs) => {
+      if (err) return console.log(err)
+      res.json(docs);
     })
     db.close();
   })

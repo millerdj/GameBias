@@ -2,6 +2,8 @@ const request = require('request');
 const { MongoClient } = require('mongodb');
 
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
+const KAIROS_API = process.env.KAIROS_API;
+const KAIROS_KEY = process.env.KAIROS_KEY;
 
 
 checkAnalyzed();
@@ -29,8 +31,8 @@ function checkAnalyzed() {
         json: true,
         headers: {
           'Content-type': 'application/json',
-          'app_id': '7aad945d',
-          'app_key': 'e221882e267ace7df891a69ec61af27b'
+          'app_id': KAIROS_API,
+          'app_key': KAIROS_KEY
         }
       }
 
