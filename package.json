@@ -7,8 +7,9 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "serve": "webpack-dev-server",
-    "watch:server": "node src/server/index.js",
-    "analyze": "node src/server/analyze.js"
+    "watch:server": "nodemon src/server/index.js",
+    "analyze": "node src/server/analyze.js",
+    "get:data": "node src/server/get-data.js"
   },
   "repository": {
     "type": "git",

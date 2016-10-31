@@ -20,10 +20,11 @@ function checkAnalyzed() {
 
     videos.findOne({analyzed: 'Not Started'}, (err, video) => {
       if (err) {
-        console.log('No New Videos')
+        console.log('No New Videos');
+        process.exit(1);
+        db.close()
       }
 
-      videos.updateOne({ source: video.source }, {$set: {analyzed: 'In Progress'}});
 
       const options = {
         method: 'POST',
@@ -42,6 +43,7 @@ function checkAnalyzed() {
         console.log('Headers:', JSON.stringify(res.headers));
         console.log('Response:', body);
         videos.updateOne({ source: video.source }, {$set: {status: body}});
+        videos.updateOne({ source: video.source }, {$set: {analyzed: 'In Progress'}});
         db.close();
       }
 

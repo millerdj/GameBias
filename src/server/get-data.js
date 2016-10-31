@@ -20,6 +20,8 @@ function getData() {
     videos.findOne({analyzed: 'In Progress'}, (err, video) => {
       if (err) {
         console.log('No New Videos')
+        process.exit(1);
+        db.close();
       }
 
       const options = {
@@ -37,9 +39,15 @@ function getData() {
         console.log('Status:', res.statusCode);
         console.log('Headers:', JSON.stringify(res.headers));
         console.log('Response:', body);
-        videos.updateOne({ source: video.source }, {$set: {analytics: body}});
-        videos.updateOne({ source: video.source }, {$set: {analyzed: 'Completed'}});
-        db.close();
+        if (body.status_message === 'Analyzing') {
+          console.log('Still Analyzing');
+          db.close()
+        }
+        else {
+          videos.updateOne({ source: video.source }, {$set: {analytics: body}});
+          videos.updateOne({ source: video.source }, {$set: {analyzed: 'Completed'}});
+          db.close();
+        }
       }
 
       request(options, saveData)

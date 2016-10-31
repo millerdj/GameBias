@@ -12,13 +12,6 @@ const spawn = require('child_process').spawn
 setInterval(spawnChildren, 10000);
 
 function spawnChildren() {
-  const analyzeChild = spawn('node', ['src/server/analyze.js']);
-  analyzeChild.stdout.on('data', function (data) {
-    console.log('tail output: ' + data);
-  });
-  analyzeChild.stderr.on('data', function (data) {
-    console.log('err data: ' + data);
-  });
 
   const dataChild = spawn('node', ['src/server/get-data.js']);
   dataChild.stdout.on('data', function (data) {
@@ -105,6 +98,15 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
   });
   uploader.on('end', function() {
     console.log("done uploading");
+
+    const analyzeChild = spawn('node', ['src/server/analyze.js']);
+    analyzeChild.stdout.on('data', function (data) {
+      console.log('tail output: ' + data);
+    });
+    analyzeChild.stderr.on('data', function (data) {
+      console.log('err data: ' + data);
+    });
+
   });
 
   res.status(204);
