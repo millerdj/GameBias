@@ -13,8 +13,6 @@ const MONGO_URI = 'mongodb://localhost:27017/gamebias';
 
 const app = express();
 
-const upload = multer({ storage: storage });
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './uploads')
@@ -23,6 +21,9 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '.mov')
   }
 })
+
+const upload = multer({ storage: storage });
+
 
 app.post('/api/form-upload', upload.single('video'), (req, res) => {
 
