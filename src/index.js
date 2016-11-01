@@ -1,5 +1,21 @@
-const form = document.getElementById('upload-video')
+const angular = require('angular');
 
+angular
+  .module('app', [require('angular-route')])
+  .config(config);
+
+function config($routeProvider) {
+  $routeProvider
+    .when('/upload', {
+      templateUrl: 'upload.html'
+    })
+    .when('/', {
+      templateUrl: 'dashboard.html'
+    })
+}
+
+
+const form = document.getElementById('upload-video')
 form.addEventListener('submit', theEvent => {
   theEvent.preventDefault();
 
@@ -15,11 +31,11 @@ form.addEventListener('submit', theEvent => {
   formData.append('name', name)
   formData.append('description', description)
   formData.append('game', game)
-
-  fetch('api/form-upload', {
-    method: 'POST',
-    body: formData
-  })
+  //
+  // fetch('api/form-upload', {
+  //   method: 'POST',
+  //   body: formData
+  // })
 
   clear(videoForm);
   const result = document.createElement('div');

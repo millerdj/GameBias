@@ -1,0 +1,15 @@
+<h3>Upload Video</h3>
+<div ng-controller="FormController as form" id="upload-form">
+  <form ng-submit="form.uploadVideo()" id="upload-video">
+    <input type="file" name="video" id="video">
+    <h5>Name</h5>
+    <input id="name" class="upload-form" type="text" name="name">
+    <h5>Description</h5>
+    <textarea id="description" class="upload-form" type="textarea" name="description" placeholder="Provide a brief description of the video"></textarea>
+    <h5>Game</h5>
+    <input id="game" class="upload-form" type="text" name="game">
+    <div>
+      <input class="btn btn-primary video-upload" type="submit" value="Upload Video" >
+    </div>
+  </form>
+</div>
