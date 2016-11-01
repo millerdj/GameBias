@@ -9,8 +9,8 @@ function config($routeProvider) {
     .when('/upload', {
       templateUrl: 'upload.html'
     })
-    .when('/my-videos', {
-      templateUrl: 'my-videos.html'
+    .when('/', {
+      templateUrl: 'dashboard.html'
     })
 }
 
