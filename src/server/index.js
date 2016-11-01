@@ -25,6 +25,25 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 
+app.get('/api/all-videos', (req, res) => {
+
+  MongoClient.connect(MONGO_URI, (err, db) => {
+    if (err) {
+      console.err(err);
+      process.exit(1);
+      db.close();
+    }
+
+    const videos = db.collection('videos');
+
+    videos
+      .find({}).toArray((err, videos) => {
+        res.status(200).json(videos)
+      })
+  })
+
+})
+
 app.post('/api/form-upload', upload.single('video'), (req, res) => {
 
 
