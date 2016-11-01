@@ -3,25 +3,17 @@ const multer = require('multer');
 const s3 = require('s3');
 const { json } = require('body-parser');
 const { MongoClient } = require('mongodb');
+const spawn = require('child_process').spawn
 
 const accessKey = process.env.S3_ACCESS_ID;
 const secretKey = process.env.S3_SECRET_ID;
 
-const spawn = require('child_process').spawn
+const PORT = 3001;
+const MONGO_URI = 'mongodb://localhost:27017/gamebias';
 
-setInterval(spawnChildren, 10000);
+const app = express();
 
-function spawnChildren() {
-
-  const dataChild = spawn('node', ['src/server/get-data.js']);
-  dataChild.stdout.on('data', function (data) {
-    console.log('tail output: ' + data);
-  });
-  dataChild.stderr.on('data', function (data) {
-    console.log('err data: ' + data);
-  });
-
-}
+const upload = multer({ storage: storage });
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -31,19 +23,6 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '.mov')
   }
 })
-
-
-const upload = multer({ storage: storage });
-
-
-
-const PORT = 3001;
-const MONGO_URI = 'mongodb://localhost:27017/gamebias';
-
-const app = express();
-
-const videoPaths = [];
-
 
 app.post('/api/form-upload', upload.single('video'), (req, res) => {
 
@@ -111,6 +90,20 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
 
   res.status(204);
 })
+
+setTimeout(getData, 90000);
+
+function getData() {
+
+  const dataChild = spawn('node', ['src/server/get-data.js']);
+  dataChild.stdout.on('data', function (data) {
+    console.log('tail output: ' + data);
+  });
+  dataChild.stderr.on('data', function (data) {
+    console.log('err data: ' + data);
+  });
+
+}
 
 app.listen(PORT, () => {
   console.log('Listening on port ' + PORT);
