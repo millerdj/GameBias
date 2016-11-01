@@ -3,6 +3,7 @@ const form = document.getElementById('upload-video')
 form.addEventListener('submit', theEvent => {
   theEvent.preventDefault();
 
+  const videoForm = document.getElementById('video-upload');
   const video = document.getElementById('video').files[0]
   const name = document.getElementById('name').value
   const description = document.getElementById('description').value
@@ -20,4 +21,15 @@ form.addEventListener('submit', theEvent => {
     body: formData
   })
 
+  clear(videoForm);
+  const result = document.createElement('div');
+  result.textContent = ('Your video will be added to your library shortly.');
+  videoForm.appendChild(result);
+
 })
+
+function clear(target) {
+  while(target.firstChild) {
+    target.removeChild(target.firstChild)
+  }
+}
