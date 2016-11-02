@@ -39,7 +39,29 @@ app.get('/api/all-videos', (req, res) => {
     videos
       .find({}).toArray((err, videos) => {
         res.status(200).json(videos)
+        db.close();
       })
+  })
+
+})
+
+app.get('/api/single-video/:filename', (req, res) => {
+
+  MongoClient.connect(MONGO_URI, (err, db) => {
+    if (err) {
+      console.err(err);
+      process.exit(1);
+      db.close();
+    }
+    const videoFile = req.params.filename;
+    const videos = db.collection('videos');
+
+    videos
+      .find({'file.filename': videoFile }).toArray((err, video) => {
+        res.status(200).json(video);
+        db.close()
+      })
+
   })
 
 })
@@ -111,7 +133,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
   res.status(204);
 })
 
-setTimeout(getData, 90000);
+// setTimeout(getData, 90000);
 
 function getData() {
 
