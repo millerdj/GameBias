@@ -6,14 +6,13 @@ function videoController($http, $routeParams) {
 
   const vm = this
 
-  const video = []
+  const video = {};
 
   init();
 
   function init() {
     $http.get('api/single-video/' + $routeParams.filename ).then(res => {
-      console.log(res)
-      vm.video = res.data
+      vm.video = res.data[0]
     })
   }
 
