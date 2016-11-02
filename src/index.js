@@ -4,7 +4,8 @@ angular
   .module('app', [require('angular-route')])
   .config(config)
   .controller('FormController', require('./form'))
-  .controller('DashboardController', require('./dashboard'));
+  .controller('DashboardController', require('./dashboard'))
+  .controller('VideoController', require('./video'));
 
 function config($routeProvider) {
   $routeProvider
@@ -15,5 +16,9 @@ function config($routeProvider) {
   .when('/', {
     templateUrl: 'dashboard.html',
     controller: 'DashboardController'
+  })
+  .when('/video/:filename', {
+    templateUrl: 'video.html',
+    controller: 'VideoController'
   })
 }

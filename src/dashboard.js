@@ -16,5 +16,4 @@ function dashboardController($http) {
     })
   }
 
-
 }
