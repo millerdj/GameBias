@@ -9,7 +9,8 @@
     "serve": "webpack-dev-server",
     "watch:server": "nodemon src/server/index.js",
     "analyze": "node src/server/analyze.js",
-    "get:data": "node src/server/get-data.js"
+    "get:data": "node src/server/get-data.js",
+    "start": "webpack && node src/server/index.js"
   },
   "repository": {
     "type": "git",
