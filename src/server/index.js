@@ -133,7 +133,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
   res.status(204);
 })
 
-// setTimeout(getData, 90000);
+setInterval(getData, 10000);
 
 function getData() {
 
