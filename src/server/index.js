@@ -8,10 +8,14 @@ const spawn = require('child_process').spawn
 const accessKey = process.env.S3_ACCESS_ID;
 const secretKey = process.env.S3_SECRET_ID;
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
 
 const app = express();
+
+console.log(__dirname);
+
+app.use(express.static(__dirname + '/../../public'))
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
