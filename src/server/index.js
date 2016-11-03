@@ -8,10 +8,15 @@ const spawn = require('child_process').spawn
 const accessKey = process.env.S3_ACCESS_ID;
 const secretKey = process.env.S3_SECRET_ID;
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
+const MONGODB_URI = process.env.MONGODB_URI || MONGO_URI;
 
 const app = express();
+
+console.log(__dirname);
+
+app.use(express.static(__dirname + '/../../public'))
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -27,7 +32,7 @@ const upload = multer({ storage: storage });
 
 app.get('/api/all-videos', (req, res) => {
 
-  MongoClient.connect(MONGO_URI, (err, db) => {
+  MongoClient.connect(MONGODB_URI, (err, db) => {
     if (err) {
       console.err(err);
       process.exit(1);
@@ -39,7 +44,29 @@ app.get('/api/all-videos', (req, res) => {
     videos
       .find({}).toArray((err, videos) => {
         res.status(200).json(videos)
+        db.close();
       })
+  })
+
+})
+
+app.get('/api/single-video/:filename', (req, res) => {
+
+  MongoClient.connect(MONGODB_URI, (err, db) => {
+    if (err) {
+      console.err(err);
+      process.exit(1);
+      db.close();
+    }
+    const videoFile = req.params.filename;
+    const videos = db.collection('videos');
+
+    videos
+      .find({'file.filename': videoFile }).toArray((err, video) => {
+        res.status(200).json(video);
+        db.close()
+      })
+
   })
 
 })
@@ -47,7 +74,7 @@ app.get('/api/all-videos', (req, res) => {
 app.post('/api/form-upload', upload.single('video'), (req, res) => {
 
 
-  MongoClient.connect(MONGO_URI, (err, db) => {
+  MongoClient.connect(MONGODB_URI, (err, db) => {
     if (err) {
       console.error(err);
       process.exit(1);
@@ -111,7 +138,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
   res.status(204);
 })
 
-setTimeout(getData, 90000);
+setInterval(getData, 10000);
 
 function getData() {
 

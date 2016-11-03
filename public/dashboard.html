@@ -1,8 +1,8 @@
-<h3>My Videos</h3>
+<h3>Dashboard</h3>
 <div ng-controller="DashboardController as dash" class="row">
   <div ng-repeat="videos in dash.videos" class="col-sm-4">
     <div class="panel panel-default">
-      <div class="panel-heading">{{ videos.name }}</div>
+      <div class="panel-heading"><a href="#video/{{ videos.file.filename }}">{{ videos.name }}</a></div>
       <div class="panel-body">{{ videos.game }}</div>
     </div>
   </div>
