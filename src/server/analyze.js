@@ -2,6 +2,7 @@ const request = require('request');
 const { MongoClient } = require('mongodb');
 
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
+const MONGODB_URI = process.env.MONGODB_URI || MONGO_URI;
 const KAIROS_API = process.env.KAIROS_API;
 const KAIROS_KEY = process.env.KAIROS_KEY;
 
@@ -10,7 +11,7 @@ checkAnalyzed();
 
 function checkAnalyzed() {
 
-  MongoClient.connect(MONGO_URI, (err, db) => {
+  MongoClient.connect(MONGODB_URI, (err, db) => {
 
     if (err) {
       console.log(err);

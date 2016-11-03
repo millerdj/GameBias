@@ -10,6 +10,7 @@ const secretKey = process.env.S3_SECRET_ID;
 
 const PORT = process.env.PORT || 3001;
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
+const MONGODB_URI = process.env.MONGODB_URI || MONGO_URI;
 
 const app = express();
 
@@ -31,7 +32,7 @@ const upload = multer({ storage: storage });
 
 app.get('/api/all-videos', (req, res) => {
 
-  MongoClient.connect(MONGO_URI, (err, db) => {
+  MongoClient.connect(MONGODB_URI, (err, db) => {
     if (err) {
       console.err(err);
       process.exit(1);
@@ -51,7 +52,7 @@ app.get('/api/all-videos', (req, res) => {
 
 app.get('/api/single-video/:filename', (req, res) => {
 
-  MongoClient.connect(MONGO_URI, (err, db) => {
+  MongoClient.connect(MONGODB_URI, (err, db) => {
     if (err) {
       console.err(err);
       process.exit(1);
@@ -73,7 +74,7 @@ app.get('/api/single-video/:filename', (req, res) => {
 app.post('/api/form-upload', upload.single('video'), (req, res) => {
 
 
-  MongoClient.connect(MONGO_URI, (err, db) => {
+  MongoClient.connect(MONGODB_URI, (err, db) => {
     if (err) {
       console.error(err);
       process.exit(1);
