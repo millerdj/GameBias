@@ -5,8 +5,8 @@ const { json } = require('body-parser');
 const { MongoClient } = require('mongodb');
 const spawn = require('child_process').spawn
 
-const accessKey = process.env.S3_ACCESS_ID;
-const secretKey = process.env.S3_SECRET_ID;
+const S3_ACCESS_ID = process.env.S3_ACCESS_ID;
+const S3_SECRET_ID = process.env.S3_SECRET_ID;
 
 const PORT = process.env.PORT || 3001;
 const MONGO_URI = 'mongodb://localhost:27017/gamebias';
@@ -20,7 +20,7 @@ app.use(express.static(__dirname + '/../../public'))
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')
+    cb(null, __dirname)
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '.mov')
@@ -100,8 +100,8 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
     multipartUploadThreshold: 125829120,
     multipartUploadSize: 104857600,
     s3Options: {
-      accessKeyId: accessKey,
-      secretAccessKey: secretKey,
+      accessKeyId: S3_ACCESS_ID,
+      secretAccessKey: S3_SECRET_ID,
     },
   })
 
