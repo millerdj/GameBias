@@ -23,7 +23,7 @@
     "url": "https://github.com/millerdj/GameBias/issues"
   },
   "homepage": "https://github.com/millerdj/GameBias#readme",
-  "devDependencies": {
+  "dependencies": {
     "angular": "^1.5.8",
     "babel-core": "^6.18.0",
     "babel-eslint": "^7.0.0",
@@ -32,9 +32,7 @@
     "eslint": "^3.8.1",
     "request": "^2.76.0",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.2"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^1.16.2",
     "angular-route": "^1.5.8",
     "angular-ui-router": "^0.3.1",
     "body-parser": "^1.15.2",
