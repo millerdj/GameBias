@@ -1,5 +1,6 @@
 const Highcharts = require('highcharts');
 require('highcharts/modules/exporting')(Highcharts);
+const emojione = require('emojione')
 
 module.exports = videoController
 
@@ -11,6 +12,21 @@ function videoController($http, $routeParams) {
 
   const video = {}
   let data = [];
+
+  drawEmoji('joy', ':smile:');
+  drawEmoji('sadness', ':sob:');
+  drawEmoji('fear', ':fearful:');
+  drawEmoji('surprise', ':astonished:');
+
+  function drawEmoji(emotion, action) {
+    const emotions = Array.from(document.getElementsByClassName(emotion));
+    emotions.forEach(element => {
+      let emoji = emojione.shortnameToImage(action)
+      let title = '<h5 style="text-align: center;">' + emotion.toUpperCase() + '</h5>';
+      let block = emoji + title
+      element.innerHTML = block;
+    })
+  }
 
   init();
   function init() {
