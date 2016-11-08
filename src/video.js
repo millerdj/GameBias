@@ -66,7 +66,8 @@ function videoController($http, $routeParams) {
         title: {
           text: 'Emotional Intensity (0-100)'
         },
-        min: 0
+        min: 0,
+        max: 100
       },
       plotOptions: {
         spline: {
