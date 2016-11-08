@@ -106,7 +106,7 @@ app.post('/api/form-upload', upload.single('video'), (req, res) => {
   })
 
   const params = {
-    localFile: '/Users/derekmiller/project3/' + videoPaths[0],
+    localFile: videoPaths[0],
 
     s3Params : {
       Bucket: "game-bias-videos",
