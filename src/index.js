@@ -1,7 +1,7 @@
 const angular = require('angular');
 
 angular
-  .module('app', [require('angular-route'), require('angular-sanitize')])
+  .module('app', [require('angular-route')])
   .config(config)
   .controller('FormController', require('./form'))
   .controller('DashboardController', require('./dashboard'))
