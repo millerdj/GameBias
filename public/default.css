@@ -1,5 +1,8 @@
 .row.content {
-  height: 1080px;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+
 }
 
 .sidenav {
@@ -9,6 +12,10 @@
 
 @media screen and (max-width: 767px) {
   .row.content {height: auto;}
+}
+
+.pre-scrollable {
+  height: 100% !important;
 }
 
 .logo {
