@@ -13,10 +13,30 @@ function videoController($http, $routeParams) {
   const video = {}
   let data = [];
 
+
+  drawCharts();
   drawEmoji('joy', ':smile:');
   drawEmoji('sadness', ':sob:');
   drawEmoji('fear', ':fearful:');
   drawEmoji('surprise', ':astonished:');
+
+  function drawCharts() {
+    $http.get('api/single-video/' + $routeParams.filename ).then(res => {
+      vm.video = res.data[0]
+      setData(vm.video, 'joy', 'yellow');
+      setData(vm.video, 'sadness', 'purple');
+      setData(vm.video, 'fear', 'red');
+      setData(vm.video, 'surprise', 'blue');
+    })
+  }
+
+  function setData(video, emotion, color){
+    data = video.analytics.frames.map((frame) => [
+      frame.time,
+      frame.people[0].emotions[emotion]
+    ])
+    createChart(emotion, color);
+  }
 
   function drawEmoji(emotion, action) {
     const emotions = Array.from(document.getElementsByClassName(emotion));
@@ -27,27 +47,6 @@ function videoController($http, $routeParams) {
       element.innerHTML = block;
     })
   }
-
-  init();
-  function init() {
-    $http.get('api/single-video/' + $routeParams.filename ).then(res => {
-      vm.video = res.data[0]
-      setData(vm.video, 'joy', 'yellow');
-      setData(vm.video, 'sadness', 'purple');
-      setData(vm.video, 'fear', 'red');
-      setData(vm.video, 'surprise', 'blue');
-    })
-  }
-
-
-  function setData(video, emotion, color){
-    data = video.analytics.frames.map((frame) => [
-      frame.time,
-      frame.people[0].emotions[emotion]
-    ])
-    createChart(emotion, color);
-  }
-
 
   function createChart(emotion, color) {
     Highcharts.chart(emotion, {

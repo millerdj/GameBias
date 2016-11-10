@@ -1,11 +1,16 @@
 const angular = require('angular');
 
 angular
-  .module('app', [require('angular-route')])
+  .module('app', [require('angular-route'), require('angular-sanitize')])
   .config(config)
   .controller('FormController', require('./form'))
   .controller('DashboardController', require('./dashboard'))
-  .controller('VideoController', require('./video'));
+  .controller('VideoController', require('./video'))
+  .filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+      return $sce.trustAsResourceUrl(url);
+    };
+  }]);
 
 function config($routeProvider) {
   $routeProvider

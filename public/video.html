@@ -7,7 +7,10 @@
         <h5>Description: </h5>
         <p class="description">{{ file.video.description }}</p>
         </div>
-      <div class="col-sm-6"></div>
+      <div class="col-sm-6">
+        <video  src="{{file.video.source | trusted}}" width="100%" controls>
+        </video>
+      </div>
     </div>
   </div>
   <div class="row">
